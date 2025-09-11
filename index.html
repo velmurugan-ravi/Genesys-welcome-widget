@@ -24,22 +24,28 @@
 
 <script>
   window.onload = function () {
-
+  if (window.purecloud?.apps) {
       const app = new window.purecloud.apps.ClientApp();
       const urlParams = new URLSearchParams(window.location.search);
       const conversationId = urlParams.get("conversationId");
-
+if (app.context?.getContext) {
     app.context.getContext().then(context => {
   const agentName = context.user.name;
   const mediaType = context.media.mediaType;
   const env = context.media.env;
-
-  document.getElementById("info").innerHTML += `
+    console.log("Agent name:", context.user.name);
+ 
+	  document.getElementById("info").innerHTML += `
     <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
     <p><strong>Agent Name:</strong> ${agentName}</p>
     <p><strong>Media Type:</strong> ${mediaType}</p>
   `;
-});
+     });
+  else{console.warn("welcome app.context is not defined")
+
+
+  }}else{console.warn("genesys sdk failed to load")}
+}
 
 
   };
@@ -47,6 +53,7 @@
 
 </body>
 </html>
+
 
 
 
