@@ -22,15 +22,17 @@
   <h2>👋 Welcome to Your Interaction Widget</h2>
   <div id="info">Loading interaction details...</div>
 
-  <script>
-    const app = new window.purecloud.apps.ClientApp();
-    const urlParams = new URLSearchParams(window.location.search);
-    const conversationId = urlParams.get("conversationId");
+<script>
+  const app = new window.purecloud.apps.ClientApp();
+  const urlParams = new URLSearchParams(window.location.search);
+  const conversationId = urlParams.get("conversationId");
 
-    document.getElementById("info").innerHTML = `
-      <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
-      <p>This widget is now live inside Genesys Cloud!</p>
-    `;
-  </script>
+  console.log("Full URL:", window.location.href);
+  console.log("Extracted conversationId:", conversationId);
+
+  document.getElementById("info").innerHTML = `
+    <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
+  `;
+</script>
 </body>
 </html>
