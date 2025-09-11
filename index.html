@@ -41,7 +41,15 @@ if (app.context?.getContext) {
     <p><strong>Media Type:</strong> ${mediaType}</p>
   `;
      });
-  }
+  }else{console.warn("welcome app.context is not defined");
+      document.getElementById("info").innerHTML += `
+        <p>⚠️ SDK loaded, but context is not available. Try reloading inside Genesys Cloud.</p>
+      `;}
+  }else{
+	  console.warn("Genesys SDK not loaded");
+    document.getElementById("info").innerHTML = `
+      <p>⚠️ Genesys SDK not loaded. Please open this widget inside Genesys Cloud.</p>
+    `;
 }
 
 
@@ -50,6 +58,7 @@ if (app.context?.getContext) {
 
 </body>
 </html>
+
 
 
 
