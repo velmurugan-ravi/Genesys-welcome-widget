@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://sdk-cdn.mypurecloud.com/client-apps/latest/purecloud-client-app-sdk.min.js"></script>
 <head>
   <meta charset="UTF-8">
-  <title>Interaction Info Viewer</title>
-  <script src="https://sdk-cdn.mypurecloud.com/client-apps/latest/purecloud-client-app-sdk.min.js"></script>
+  <title>Interaction Info Viewer</title> 
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,16 +23,26 @@
   <div id="info">Loading interaction details...</div>
 
 <script>
-  const app = new window.purecloud.apps.ClientApp();
-  const urlParams = new URLSearchParams(window.location.search);
-  const conversationId = urlParams.get("conversationId");
+  window.onload = function () {
+    if (window.purecloud?.apps) {
+      const app = new window.purecloud.apps.ClientApp();
+      const urlParams = new URLSearchParams(window.location.search);
+      const conversationId = urlParams.get("conversationId");
 
-  console.log("Full URL:", window.location.href);
-  console.log("Extracted conversationId:", conversationId);
+      console.log("Full URL:", window.location.href);
+      console.log("Extracted conversationId:", conversationId);
 
-  document.getElementById("info").innerHTML = `
-    <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
-  `;
+      document.getElementById("info").innerHTML = `
+        <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
+      `;
+    } else {
+      document.getElementById("info").innerHTML = `
+        <p>⚠️ Genesys SDK not loaded. Please open this widget inside Genesys Cloud.</p>
+      `;
+    }
+  };
 </script>
+
 </body>
 </html>
+
