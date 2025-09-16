@@ -61,11 +61,12 @@
           infoDiv.innerHTML += `<p>⚠️ SDK loaded, but context is not available. Try reloading inside Genesys Cloud.</p>`;
         }
       } else {
-        console.warn("SDK not loaded:", err);
+        console.warn("SDK not loaded:");
         infoDiv.innerHTML = `<p>⚠️ SDK not loaded. Please open this widget inside Genesys Cloud.</p>`;
       }
     };
   </script>
 </body>
 </html>
+
 
