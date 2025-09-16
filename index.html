@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://sdk-cdn.mypurecloud.com/client-apps/2.6.3/purecloud-client-app-sdk-de77761d.min.js"></script>
 <head>
   <meta charset="UTF-8">
-  <title>Genesys Interaction Context</title>
-  <script src="https://sdk-cdn.mypurecloud.com/client-apps/purecloud-client-app-sdk.min.js"></script>
+  <title>Interaction Info Viewer</title> 
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,57 +16,30 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .label {
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
-  <h2>📡 Interaction Context Viewer</h2>
-  <div id="info">Loading context...</div>
+  <h2>👋 Welcome to Your Interaction Widget</h2>
+  <div id="info">Loading interaction details...</div>
 
-  <script>
-    window.onload = function () {
-      const infoDiv = document.getElementById("info");
+<script>
+  window.onload = function () {
 
-      if (window.purecloud?.apps?.ClientApp) {
-        const app = new window.purecloud.apps.ClientApp();
-        const urlParams = new URLSearchParams(window.location.search);
-        const conversationId = urlParams.get("conversationId");
+      const app = new window.purecloud.apps.ClientApp();
+      const urlParams = new URLSearchParams(window.location.search);
+      const conversationId = urlParams.get("conversationId");
 
-        infoDiv.innerHTML = `<p><span class="label">Conversation ID:</span> ${conversationId || 'Not available'}</p>`;
+  document.getElementById("info").innerHTML = `
+    <p><strong>Conversation ID:</strong> ${conversationId}</p>
+  `;
+});
 
-        if (app.context?.getContext) {
-          app.context.getContext().then(context => {
-            console.log("Context received:", context);
 
-            const agentName = context.user?.name || 'Unknown';
-            const mediaType = context.media?.mediaType || 'Unknown';
-            const env = context.media?.env || 'Unknown';
-            const direction = context.media?.direction || 'Unknown';
-            const queueName = context.interaction?.queue?.name || 'Unknown';
+  };
+</script>
 
-            infoDiv.innerHTML += `
-              <p><span class="label">Agent Name:</span> ${agentName}</p>
-              <p><span class="label">Media Type:</span> ${mediaType}</p>
-              <p><span class="label">Direction:</span> ${direction}</p>
-              <p><span class="label">Environment:</span> ${env}</p>
-              <p><span class="label">Queue Name:</span> ${queueName}</p>
-            `;
-          }).catch(err => {
-            console.warn("Context fetch failed:", err);
-            infoDiv.innerHTML += `<p>⚠️ Context fetch failed. See console for details.</p>`;
-          });
-        } else {
-          infoDiv.innerHTML += `<p>⚠️ SDK loaded, but context is not available. Try reloading inside Genesys Cloud.</p>`;
-        }
-      } else {
-        console.warn("SDK not loaded:");
-        infoDiv.innerHTML = `<p>⚠️ SDK not loaded. Please open this widget inside Genesys Cloud.</p>`;
-      }
-    };
-  </script>
 </body>
 </html>
+
 
 
