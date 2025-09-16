@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://sdk-cdn.mypurecloud.com/client-apps/2.6.3/purecloud-client-app-sdk-de77761d.min.js"></script>
 <head>
   <meta charset="UTF-8">
-  <title>Interaction Info Viewer</title> 
+  <title>Interaction Info Viewer</title>
+  <script src="https://sdk-cdn.mypurecloud.com/client-apps/2.6.3/purecloud-client-app-sdk.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,23 +22,47 @@
   <h2>👋 Welcome to Your Interaction Widget</h2>
   <div id="info">Loading interaction details...</div>
 
-<script>
-  window.onload = function () {
+  <script>
+    window.onload = function () {
+      if (window.purecloud?.apps) {
+        const app = new window.purecloud.apps.ClientApp();
+        const urlParams = new URLSearchParams(window.location.search);
+        const conversationId = urlParams.get("conversationId");
 
-      const app = new window.purecloud.apps.ClientApp();
-      const urlParams = new URLSearchParams(window.location.search);
-      const conversationId = urlParams.get("conversationId");
+        // Display conversation ID immediately
+        document.getElementById("info").innerHTML = `
+          <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
+        `;
 
-  document.getElementById("info").innerHTML = `
-    <p><strong>Conversation ID:</strong> ${conversationId}</p>
-  `;
-};
+        // Try to get context from Genesys Cloud
+        if (app.context?.getContext) {
+          app.context.getContext().then(context => {
+            const agentName = context.user?.name || 'Unknown';
+            const mediaType = context.media?.mediaType || 'Unknown';
+            const environment = context.media?.env || 'Unknown';
 
-</script>
-
+            document.getElementById("info").innerHTML += `
+              <p><strong>Agent Name:</strong> ${agentName}</p>
+              <p><strong>Media Type:</strong> ${mediaType}</p>
+              <p><strong>Environment:</strong> ${environment}</p>
+            `;
+          }).catch(err => {
+            console.warn("Context fetch failed:", err);
+            document.getElementById("info").innerHTML += `
+              <p>⚠️ Unable to fetch context. Please reload inside Genesys Cloud.</p>
+            `;
+          });
+        } else {
+          document.getElementById("info").innerHTML += `
+            <p>⚠️ SDK loaded, but context is not available. Try reloading inside Genesys Cloud.</p>
+          `;
+        }
+      } else {
+        document.getElementById("info").innerHTML = `
+          <p>⚠️ SDK not loaded. Please open this widget inside Genesys Cloud.</p>
+        `;
+      }
+    };
+  </script>
 </body>
 </html>
-
-
-
-
