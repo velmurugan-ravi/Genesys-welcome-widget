@@ -4,10 +4,23 @@
   <meta charset="UTF-8">
   <title>Conversation ID Viewer</title>
   <script src="https://sdk-cdn.mypurecloud.com/client-apps/2.6.3/purecloud-client-app-sdk.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    #info {
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-  <h3>🧩 Conversation Info</h3>
-  <div id="info">Loading...</div>
+  <h2>🧩 Interaction Details</h2>
+  <div id="info">Loading conversation ID...</div>
 
   <script>
     window.onload = function () {
@@ -16,11 +29,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const conversationId = urlParams.get("conversationId");
 
-        document.getElementById("info").textContent =
-          `Conversation ID: ${conversationId || 'Not available'}`;
+        document.getElementById("info").innerHTML = `
+          <p><strong>Conversation ID:</strong> ${conversationId || 'Not available'}</p>
+        `;
       } else {
-        document.getElementById("info").textContent =
-          "⚠️ SDK not loaded. Please open this inside Genesys Cloud.";
+        document.getElementById("info").innerHTML = `
+          <p>⚠️ SDK not loaded. Please open this widget inside Genesys Cloud.</p>
+        `;
       }
     };
   </script>
