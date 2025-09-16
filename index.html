@@ -29,7 +29,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const conversationId = urlParams.get("conversationId");
 
-  document.getElementById("info").innerHTML += `
+  document.getElementById("info").innerHTML = `
     <p><strong>Conversation ID:</strong> ${conversationId}</p>
   `;
 };
@@ -38,6 +38,7 @@
 
 </body>
 </html>
+
 
 
 
